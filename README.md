@@ -31,13 +31,18 @@ Mit Docker:
 ```shell
 docker run --rm -it \
     -p 8358:80 \
-    -v "$PWD":/var/www/html \
+    -v "$PWD/public":/var/www/html \
     php:8.3-apache
+```
+
+Mit PHP:
+```shell
+php -S localhost:8358 -t public
 ```
 
 Mit Python 3 ohne PHP (kein Speichern und keine Uploads):
 ```shell
-python3 -m http.server 8358
+python3 -m http.server 8358 -d public
 ```
 
 Danach http://localhost:8358 öffnen.
@@ -45,8 +50,8 @@ Danach http://localhost:8358 öffnen.
 
 ## Deployment
 
-Auf einen PHP-fähigen Webhosting-Speicher kopieren und einen Passwortschutz einrichten,
-zum Beispiel mit [.htaccess](https://de.wikipedia.org/wiki/.htaccess).
+Kopiere den Inhalt(!) des Ordners public auf einen Webhosting-Speicher mit PHP >= 8
+und richte einen Passwortschutz ein, zum Beispiel mit [.htaccess](https://de.wikipedia.org/wiki/.htaccess).
 
 
 ## Datenformat
