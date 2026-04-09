@@ -1,0 +1,88 @@
+[
+    {
+        "id": "936323c7-0f0d-4b2d-b623-c469666943fd",
+        "data": {
+            "gender": "M",
+            "nick_name": "Maxi",
+            "first_name": "Maximilian",
+            "second_names": "Josef",
+            "family_name": "Mustermann",
+            "birth_name": "",
+            "birth_date": "1970-01-01",
+            "birth_place": "Berlin",
+            "residence_place": "München",
+            "death_date": "",
+            "death_place": "",
+            "burial_place": "",
+            "marriage_date": "",
+            "marriage_place": "",
+            "divorce_date": "",
+            "avatar_url": "",
+            "note": ""
+        },
+        "rels": {
+            "father": "92c25adc-83b7-433b-9469-516c263e1217",
+            "mother": "9d4b70d5-848b-418a-87b2-94c693ac7fe4"
+        }
+    },
+    {
+        "id": "92c25adc-83b7-433b-9469-516c263e1217",
+        "data": {
+            "gender": "M",
+            "nick_name": "",
+            "first_name": "Franz",
+            "second_names": "",
+            "family_name": "Mustermann",
+            "birth_name": "",
+            "birth_date": "",
+            "birth_place": "",
+            "residence_place": "",
+            "death_date": "",
+            "death_place": "",
+            "burial_place": "",
+            "marriage_date": "",
+            "marriage_place": "",
+            "divorce_date": "",
+            "avatar_url": "",
+            "note": ""
+        },
+        "rels": {
+            "children": [
+                "936323c7-0f0d-4b2d-b623-c469666943fd"
+            ],
+            "spouses": [
+                "9d4b70d5-848b-418a-87b2-94c693ac7fe4"
+            ]
+        }
+    },
+    {
+        "id": "9d4b70d5-848b-418a-87b2-94c693ac7fe4",
+        "data": {
+            "gender": "F",
+            "nick_name": "",
+            "first_name": "Anna",
+            "second_names": "Maria",
+            "family_name": "Mustermann",
+            "birth_name": "Musterfrau",
+            "birth_date": "",
+            "birth_place": "",
+            "residence_place": "",
+            "death_date": "",
+            "death_place": "",
+            "burial_place": "",
+            "marriage_date": "",
+            "marriage_place": "",
+            "divorce_date": "",
+            "avatar_url": "",
+            "note": ""
+        },
+        "rels": {
+            "children": [
+                "936323c7-0f0d-4b2d-b623-c469666943fd"
+            ],
+            "spouses": [
+                "92c25adc-83b7-433b-9469-516c263e1217"
+            ]
+        }
+    }
+]

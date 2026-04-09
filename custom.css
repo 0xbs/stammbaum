@@ -1,0 +1,153 @@
+@font-face {
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url(fonts/FiraSans-ExtraLight.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    font-style: italic;
+    font-weight: 200;
+    font-display: swap;
+    src: url(fonts/FiraSans-ExtraLightItalic.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(fonts/FiraSans-Regular.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url(fonts/FiraSans-Italic.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(fonts/FiraSans-Bold.woff2) format('woff2');
+}
+
+@font-face {
+    font-family: 'Fira Sans';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url(fonts/FiraSans-BoldItalic.woff2) format('woff2');
+}
+
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Fira Sans', sans-serif;
+    background-color: black;
+}
+
+#menu {
+    padding: 3px 5px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.5em;
+}
+
+#menu .spacer {
+    border-left: 1px solid white;
+}
+
+#menu button[disabled] {
+    color: #222;
+}
+
+#chart {
+    --female-color: #702652;
+    --male-color: #264470;
+    --genderless-color: #705726;
+    background-color: #222;
+    color: #fff;
+    flex-grow: 1;
+    margin: 0;
+}
+
+#chart .person-name-line-1 {
+    font-size: larger;
+}
+
+#chart .person-nick-name {
+    font-style: italic;
+    font-weight: bold;
+}
+
+#chart .person-first-name {
+    font-weight: bold;
+}
+
+#chart .person-second-names {
+    font-weight: 200;
+}
+
+#chart .person-note {
+    font-size: smaller;
+    font-style: italic;
+}
+
+#chart .card-inner {
+    width: 300px;
+    padding: 10px 0;
+    min-height: 60px;
+}
+
+.hidden {
+    display: none;
+}
+
+.clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    hyphens: auto;
+}
+
+.toast {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    max-width: min(90vw, 420px);
+    padding: 10px 14px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.95rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.toast-success {
+    background: #1f7a3b;
+}
+
+.toast-error {
+    background: #b00020;
+}
