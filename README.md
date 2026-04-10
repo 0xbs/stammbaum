@@ -29,10 +29,10 @@ können Bäume zusammengeführt und validiert werden.
 
 Mit Docker:
 ```shell
-docker run --rm -it \
-    -p 8358:80 \
-    -v "$PWD/public":/var/www/html \
-    php:8.3-apache
+docker run --rm \
+    --publish 8358:80 \
+    --volume "$PWD/public":/var/www/html \
+    php:8-apache
 ```
 
 Mit PHP:
