@@ -1,6 +1,6 @@
 # Stammbaum
 
-Familienstammbäume auf einem Webhosting anzeigen und bearbeiten.
+Familienstammbäume auf einem Webhosting anzeigen.
 
 Die Darstellung basiert auf [donatso/family-chart](https://github.com/donatso/family-chart)
 mit angepassten Feldnamen und Styling.
@@ -8,41 +8,20 @@ mit angepassten Feldnamen und Styling.
 Tipp: Mit dem Tool [0xbs/graft](https://github.com/0xbs/graft)
 können Bäume zusammengeführt und validiert werden.
 
-### Bearbeiten
-
-1. Auf die Person klicken, die bearbeitet werden soll
-2. Auf den Button Bearbeiten klicken
-3. Feldwerte ändern oder Personen hinzufügen
-4. Auf den Button Speichern klicken
-5. Auf die Bestätigungsmeldung warten
-
-### Avatar hochladen
-
-1. Auf die Person klicken, die bearbeitet werden soll
-2. Auf den Button Bearbeiten klicken
-3. Auf den Avatar-Button klicken
-4. Datei auswählen
-5. Auf den Button Speichern klicken
-
 
 ## Lokal ausführen
 
-Mit Docker:
+Mit einem statischen Webserver:
+```shell
+python3 -m http.server 8358 -d public
+```
+
+Oder mit jedem anderen statischen Server, der den Ordner `public/` ausliefert, zum Beispiel:
 ```shell
 docker run --rm \
     --publish 8358:80 \
-    --volume "$PWD/public":/var/www/html \
-    php:8-apache
-```
-
-Mit PHP:
-```shell
-php -S localhost:8358 -t public
-```
-
-Mit Python 3 ohne PHP (kein Speichern und keine Uploads):
-```shell
-python3 -m http.server 8358 -d public
+    --volume "$PWD/public":/usr/share/nginx/html:ro \
+    nginx:alpine
 ```
 
 Danach http://localhost:8358 öffnen.
@@ -50,8 +29,10 @@ Danach http://localhost:8358 öffnen.
 
 ## Deployment
 
-Kopiere den Inhalt(!) des Ordners public auf einen Webhosting-Speicher mit PHP >= 8
-und richte einen Passwortschutz ein, zum Beispiel mit [.htaccess](https://de.wikipedia.org/wiki/.htaccess).
+Kopiere den Inhalt(!) des Ordners `public` auf einen statischen Webspace oder Webserver.
+PHP ist nicht erforderlich.
+
+Änderungen an den Personendaten erfolgen direkt in `public/data/data.json`.
 
 
 ## Datenformat

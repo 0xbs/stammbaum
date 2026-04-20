@@ -1,24 +1,5 @@
 const mainPersonId = "936323c7-0f0d-4b2d-b623-c469666943fd"; // ID of person auto-selected when loaded
 
-const editableFields = [
-  "nick_name",
-  "first_name",
-  "second_names",
-  "family_name",
-  "birth_name",
-  "birth_date",
-  "birth_place",
-  "residence_place",
-  "death_date",
-  "death_place",
-  "burial_place",
-  "marriage_date",
-  "marriage_place",
-  "divorce_date",
-  "avatar_url",
-  "note"
-];
-
 function formatDate(s) {
   if (!s) return '';
   const m = /^([^-]{4})-([^-]{1,2})-([^-]{1,2})$/.exec(s);
@@ -86,22 +67,6 @@ function computeAge(birthParts, refParts, refDate) {
 function formatAgeLabel(age) {
   if (!Number.isFinite(age) || age < 0) return '';
   return `(${age})`;
-}
-
-const toastEl = document.getElementById('toast');
-let toastTimeoutId = null;
-
-function showToast(message, type = 'success') {
-  if (!toastEl) return;
-  toastEl.textContent = message;
-  toastEl.classList.remove('toast-success', 'toast-error', 'hidden');
-  toastEl.classList.add(type === 'error' ? 'toast-error' : 'toast-success');
-  if (toastTimeoutId) {
-    clearTimeout(toastTimeoutId);
-  }
-  toastTimeoutId = setTimeout(() => {
-    toastEl.classList.add('hidden');
-  }, 3000);
 }
 
 function getAgeLabels(dd) {
@@ -221,7 +186,7 @@ const f3Chart = f3.createChart('#chart', data)
   .setOrientationVertical()
   .setSortChildrenFunction((a, b) => a.data['birth_date'] === b.data['birth_date'] ? 0 : a.data['birth_date'] > b.data['birth_date'] ? 1 : -1);
 
-const f3Card = f3Chart.setCardHtml()
+f3Chart.setCardHtml()
   .setCardDisplay([
     ["nick_name", "first_name", "second_names"],
     ["family_name", "birth_name"],
@@ -232,7 +197,6 @@ const f3Card = f3Chart.setCardHtml()
   .setCardInnerHtmlCreator(createCard)
   .setOnCardClick((event, datum) => {
     if (!datum || !datum.data) return;
-    lastSelectedDatum = datum.data;
     selectPersonById(datum.data.id);
   })
   .setCardDim({"height_auto": true})
@@ -245,134 +209,4 @@ f3Chart
   .updateMainId(initialPersonId)
   .updateTree({initial: true});
 
-let f3EditTree = null;
-let latestExportData = null;
-let lastSelectedDatum = null;
 updateUrlForId(initialPersonId);
-
-function isEditableTarget(element) {
-  if (!(element instanceof Element)) return false;
-  const tagName = element.tagName?.toLowerCase();
-  return tagName === 'input' || tagName === 'textarea' || element.isContentEditable;
-}
-
-document.getElementById('edit').addEventListener('click', (e) => {
-  if (f3EditTree) return; // already in edit mode
-  f3EditTree = f3Chart.editTree()
-    .fixed(true)
-    .setFields(editableFields)
-    .setCardClickOpen(f3Card)
-    .setOnChange(() => {
-      latestExportData = f3EditTree.exportData();
-    });
-  f3EditTree.setEdit();
-  f3Chart.updateTree({initial: true});
-  f3EditTree.open(f3Chart.getMainDatum());
-  latestExportData = f3EditTree.exportData();
-  e.target.disabled = true;
-  e.target.title = 'Edit mode enabled';
-  document.getElementById('copy').classList.remove('hidden');
-  document.getElementById('save').classList.remove('hidden');
-  document.getElementById('avatar').classList.remove('hidden');
-  console.log('Edit mode enabled');
-});
-
-document.getElementById('copy').addEventListener('click', async () => {
-  if (!navigator.clipboard) {
-    alert('Clipboard API not available in this context.');
-    console.error('Clipboard API not available in this context.');
-    return;
-  }
-  const payload = latestExportData ?? f3EditTree.exportData();
-  try {
-    await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
-    console.log('Data copied to clipboard');
-  } catch (err) {
-    console.error('Failed to copy export data to clipboard:', err);
-  }
-});
-
-document.getElementById('save').addEventListener('click', async () => {
-  const payload = latestExportData ?? f3EditTree.exportData();
-  try {
-    const response = await fetch('save-data.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    if (!response.ok) {
-      throw new Error(`Save failed with status ${response.status}`);
-    }
-
-    const result = await response.json();
-    if (!result.ok) {
-      throw new Error(result.error || 'Save failed');
-    }
-
-    console.log('Data saved successfully');
-    showToast('Daten gespeichert.', 'success');
-  } catch (err) {
-    console.error('Failed to save export data:', err);
-    showToast('Speichern fehlgeschlagen.', 'error');
-  }
-});
-
-const avatarInput = document.createElement('input');
-avatarInput.type = 'file';
-avatarInput.accept = '.jpg,image/jpeg';
-avatarInput.style.display = 'none';
-document.body.appendChild(avatarInput);
-
-document.getElementById('avatar').addEventListener('click', () => {
-  avatarInput.value = '';
-  avatarInput.click();
-});
-
-avatarInput.addEventListener('change', async () => {
-  const file = avatarInput.files && avatarInput.files[0];
-  if (!file) return;
-  if (!file.name.toLowerCase().endsWith('.jpg') && !file.name.toLowerCase().endsWith('.jpeg')) {
-    alert('Bitte nur JPG-Dateien hochladen.');
-    return;
-  }
-  if (file.type && file.type !== 'image/jpeg') {
-    alert('Bitte nur JPG-Dateien hochladen.');
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('avatar', file, file.name);
-
-  const response = await fetch('upload-avatar.php', {
-    method: 'POST',
-    body: formData
-  });
-
-  if (!response.ok) {
-    console.error(`Upload failed with status ${response.status}`);
-    showToast('Upload fehlgeschlagen.', 'error');
-  }
-
-  const result = await response.json();
-  if (!result.ok) {
-    console.error(`Upload response has error: ${result.error}`);
-    showToast('Upload fehlgeschlagen.', 'error');
-  }
-
-  const avatarUrl = `avatars/${encodeURIComponent(result.filename)}`;
-  const targetDatum = lastSelectedDatum ?? f3Chart.getMainDatum();
-  if (targetDatum && targetDatum.data) {
-    targetDatum.data.avatar_url = avatarUrl;
-    if (f3EditTree && typeof f3EditTree.open === 'function') {
-      f3EditTree.open(targetDatum);
-    }
-    f3Chart.updateTree({initial: false});
-    latestExportData = f3EditTree ? f3EditTree.exportData() : latestExportData;
-  }
-
-  console.log('Avatar uploaded successfully');
-  showToast('Avatar hochgeladen.', 'success');
-});

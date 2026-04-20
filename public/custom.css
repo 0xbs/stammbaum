@@ -63,23 +63,6 @@ body {
     background-color: black;
 }
 
-#menu {
-    padding: 3px 5px;
-    color: white;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 0.5em;
-}
-
-#menu .spacer {
-    border-left: 1px solid white;
-}
-
-#menu button[disabled] {
-    color: #222;
-}
-
 #chart {
     --female-color: #702652;
     --male-color: #264470;
@@ -128,26 +111,4 @@ body {
     -webkit-line-clamp: 2;
     overflow: hidden;
     hyphens: auto;
-}
-
-.toast {
-    position: fixed;
-    right: 16px;
-    bottom: 16px;
-    max-width: min(90vw, 420px);
-    padding: 10px 14px;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 0.95rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    pointer-events: none;
-    z-index: 9999;
-}
-
-.toast-success {
-    background: #1f7a3b;
-}
-
-.toast-error {
-    background: #b00020;
 }
